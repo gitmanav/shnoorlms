@@ -15,6 +15,11 @@ import AdminLayout from "./components/layout/AdminLayout";
 import InstructorLayout from "./components/layout/InstructorLayout";
 import StudentLayout from "./components/layout/StudentLayout";
 
+import { SocketProvider } from "./context/SocketContext";
+import InstructorChat from "./pages/instructor/InstructorChat";
+import StudentChat from "./pages/student/StudentChat";
+
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ApproveUsers from "./pages/admin/ApproveUsers";
 
@@ -53,81 +58,85 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+        <SocketProvider>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles="admin">
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-
-            <Route path="add-instructor" element={<AddInstructor />} />
-            <Route path="approve-users" element={<ApproveUsers />} />
-            <Route path="approve-courses" element={<ApproveCourses />} />
-            <Route path="assign-course" element={<AssignCourse />} />
-            <Route path="certificates" element={<CertificateConfig />} />
-            <Route path="manage-users" element={<ManageUsers />} />
-            <Route path="settings" element={<ProfileSettings />} />
-            <Route path="profile-management" element={<ProfileManagement />} />
-          </Route>
-
-          <Route
-            path="/instructor"
-            element={
-              <ProtectedRoute allowedRoles={["instructor", "company"]}>
-                <InstructorLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<InstructorDashboard />} />
-            <Route path="add-course" element={<AddCourse />} />
-            <Route path="courses" element={<CourseList />} />
-            <Route path="contests" element={<ContestManagement />} />
-            <Route path="contests/create" element={<CreateContest />} />
-            <Route path="exams" element={<ExamBuilder />} />
-            <Route path="performance" element={<StudentPerformance />} />
-            <Route path="settings" element={<ProfileSettings />} />
-          </Route>
-
-          <Route
-            path="/student"
-            element={
-              <ProtectedRoute allowedRoles={["student", "learner"]}>
-                <StudentLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<StudentDashboard />} />
-            <Route path="courses" element={<StudentCourses />} />
-            <Route path="course/:courseId" element={<CourseDetail />} />
-            <Route path="course/:courseId/learn" element={<CoursePlayer />} />
             <Route
-              path="practice/session/:challengeId"
-              element={<PracticeSession />}
-            />
-            <Route path="exams" element={<StudentExams />} />
-            <Route path="exam/:examId" element={<ExamRunner />} />
-            <Route path="contests" element={<WeeklyContest />} />
-            <Route path="contest/:contestId" element={<ContestDetail />} />
-            <Route path="settings" element={<ProfileSettings />} />
-            <Route path="certificate" element={<MyCertificates />} />
-            <Route path="leaderboard" element={<Leaderboard />} />
-          </Route>
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles="admin">
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/suspended" element={<Suspended />} />
-        </Routes>
+              <Route path="add-instructor" element={<AddInstructor />} />
+              <Route path="approve-users" element={<ApproveUsers />} />
+              <Route path="approve-courses" element={<ApproveCourses />} />
+              <Route path="assign-course" element={<AssignCourse />} />
+              <Route path="certificates" element={<CertificateConfig />} />
+              <Route path="manage-users" element={<ManageUsers />} />
+              <Route path="settings" element={<ProfileSettings />} />
+              <Route path="profile-management" element={<ProfileManagement />} />
+            </Route>
+
+            <Route
+              path="/instructor"
+              element={
+                <ProtectedRoute allowedRoles={["instructor", "company"]}>
+                  <InstructorLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<InstructorDashboard />} />
+              <Route path="add-course" element={<AddCourse />} />
+              <Route path="courses" element={<CourseList />} />
+              <Route path="contests" element={<ContestManagement />} />
+              <Route path="contests/create" element={<CreateContest />} />
+              <Route path="exams" element={<ExamBuilder />} />
+              <Route path="performance" element={<StudentPerformance />} />
+              <Route path="settings" element={<ProfileSettings />} />
+              <Route path="chat" element={<InstructorChat />} />
+            </Route>
+
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute allowedRoles={["student", "learner"]}>
+                  <StudentLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<StudentDashboard />} />
+              <Route path="courses" element={<StudentCourses />} />
+              <Route path="course/:courseId" element={<CourseDetail />} />
+              <Route path="course/:courseId/learn" element={<CoursePlayer />} />
+              <Route
+                path="practice/session/:challengeId"
+                element={<PracticeSession />}
+              />
+              <Route path="exams" element={<StudentExams />} />
+              <Route path="exam/:examId" element={<ExamRunner />} />
+              <Route path="contests" element={<WeeklyContest />} />
+              <Route path="contest/:contestId" element={<ContestDetail />} />
+              <Route path="settings" element={<ProfileSettings />} />
+              <Route path="certificate" element={<MyCertificates />} />
+              <Route path="leaderboard" element={<Leaderboard />} />
+              <Route path="chat" element={<StudentChat />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/suspended" element={<Suspended />} />
+          </Routes>
+        </SocketProvider>
       </AuthProvider>
     </Router>
   );
