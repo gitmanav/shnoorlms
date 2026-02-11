@@ -13,6 +13,8 @@ import {
   Settings,
   MessageSquare,
   Award,
+  HelpCircle,
+  Users,
 } from "lucide-react";
 import markLogo from "../../../assets/just_logo.jpeg";
 
@@ -102,6 +104,16 @@ const StudentLayoutView = ({
                 icon={MessageSquare}
                 label="Messages"
                 badgeCount={totalUnread}
+              />
+              <NavItem 
+                path="groups" 
+                icon={Users} 
+                label="My Groups" 
+              />
+              <NavItem
+                path="messages"
+                icon={HelpCircle}
+                label="Admin Support"
               />
               <NavItem path="settings" icon={Settings} label="Settings" />
             </ul>

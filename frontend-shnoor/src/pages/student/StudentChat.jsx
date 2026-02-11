@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { useSocket } from '../../context/SocketContext';
 import { useAuth } from '../../auth/AuthContext';
-import ChatList from '../../components/chat/ChatList';
-import ChatWindow from '../../components/chat/ChatWindow';
+import ChatList from '../../components/Chat/ChatList';
+import ChatWindow from '../../components/Chat/ChatWindow';
 import '../../styles/Chat.css';
 
 const StudentChat = () => {
@@ -32,7 +32,22 @@ const StudentChat = () => {
                 // Get all instructors
                 const instructorsRes = await api.get('/api/chats/available-instructors');
                 const allInstructors = instructorsRes.data;
-
+                // Admin Support Addition
+                const adminsRes = await api.get('/api/chats/available-admins');
+                const allAdmins = adminsRes.data;
+                allAdmins.forEach(admin => {
+    const alreadyExists = existingChats.some(c => c.recipientId === admin.user_id);
+    if (!alreadyExists) {
+        mergedChats.push({
+            id: `new_${admin.user_id}`,
+            recipientName: admin.full_name || 'Admin Support',
+            recipientId: admin.user_id,
+            lastMessage: 'Ask support',
+            unread: 0,
+            exists: false
+        });
+    }
+});
                 // Merge: existing chats + instructors without chats
                 const mergedChats = [...existingChats];
                 allInstructors.forEach(instructor => {

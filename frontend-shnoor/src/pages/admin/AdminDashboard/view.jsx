@@ -1,7 +1,7 @@
 import React from 'react';
-import { Users, BookOpen, Clock, Award, TrendingUp, Search } from 'lucide-react';
+import { Users, BookOpen, Clock, Award, TrendingUp, Search, MessageSquare, ArrowRight } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
+import { Link } from 'react-router-dom';
 const AdminDashboardView = ({ stats, chartData, loading }) => {
   if (loading) return <div className="p-10 text-slate-400 animate-pulse font-medium">Syncing data...</div>;
 
@@ -41,6 +41,8 @@ const AdminDashboardView = ({ stats, chartData, loading }) => {
         <StatCard label="Total Learning Hours" value={stats?.totalHours ?? 0} icon={Clock} color="bg-amber-50 text-amber-600" />
         <StatCard label="Certificates Issued" value={stats?.certificates ?? 0} icon={Award} color="bg-rose-50 text-rose-600" />
       </div>
+
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white p-6 rounded-lg border border-slate-200 shadow-sm h-[450px] flex flex-col">

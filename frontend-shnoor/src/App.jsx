@@ -15,6 +15,8 @@ import AdminLayout from "./components/layout/AdminLayout";
 import InstructorLayout from "./components/layout/InstructorLayout";
 import StudentLayout from "./components/layout/StudentLayout";
 
+import ChatWithStudents from "./pages/admin/ChatWithStudents";
+
 import { SocketProvider } from "./context/SocketContext";
 import InstructorChat from "./pages/instructor/InstructorChat";
 import StudentChat from "./pages/student/StudentChat";
@@ -53,7 +55,10 @@ import ContestDetail from "./pages/student/WeeklyContest/ContestDetail";
 import ContestManagement from "./pages/instructor/ContestManagement";
 import CreateContest from "./pages/instructor/ContestManagement/CreateContest";
 import Leaderboard from './pages/student/Leaderboard';
-
+import ChatSupport from "./pages/student/StudentChat";
+import AdminChat from "./pages/admin/AdminChat";
+import MyGroups from "./pages/student/MyGroups";
+import GroupChat from "./pages/student/GroupChat";
 function App() {
   return (
     <Router>
@@ -64,7 +69,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-
+            
             <Route
               path="/admin"
               element={
@@ -84,6 +89,8 @@ function App() {
               <Route path="manage-users" element={<ManageUsers />} />
               <Route path="settings" element={<ProfileSettings />} />
               <Route path="profile-management" element={<ProfileManagement />} />
+              {/* <Route path="chat-students" element={<AdminChat />} /> */}
+              <Route path="chat-students" element={<ChatWithStudents />} />
             </Route>
 
             <Route
@@ -131,6 +138,9 @@ function App() {
               <Route path="certificate" element={<MyCertificates />} />
               <Route path="leaderboard" element={<Leaderboard />} />
               <Route path="chat" element={<StudentChat />} />
+              <Route path="messages" element={<ChatSupport />} />
+              <Route path="/student/groups" element={<MyGroups />} />
+              <Route path="/student/groups/:groupId" element={<GroupChat />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

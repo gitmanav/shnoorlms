@@ -30,7 +30,6 @@ router.get("/available-instructors", getAvailableInstructors);
 router.post("/", createChat);
 router.post("/upload", upload.single('file'), uploadFile);
 router.put("/read", markRead);
-
 console.log("✅ Chat routes registered");
 
 export default router;
